@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multifile Upload with Ajax</title>
+</head>
+<body>
+    
+    <form enctype="multipart/form-data" id="formuploadajax" method="post">
+        <input  type="file" name="file[]"/>
+        <br />
+        <input  type="file" name="file[]"/>
+        <br />
+        <input type="submit" value="Upload Files"/>
+    </form>
+    <div id="msg"></div>    
+    
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script>
+    $(function(){
+        $("#formuploadajax").on("submit", function(e){
+            e.preventDefault();
+            var f = $(this);
+            var formData = new FormData(document.getElementById("formuploadajax"));
+            formData.append("data", "value");
+            $.ajax({
+                url: "upload.php",
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+	     		processData: false
+            })
+            .done(function(res){
+                $("#msg").html("<strong>Response:</strong><br> " + res);
+            });
+        });
+    });
+    </script>
+</body>
+</html>
